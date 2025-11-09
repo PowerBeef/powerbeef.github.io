@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide Comparatif Illustré - Mini Tours à Métaux</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header .subtitle {
+            font-size: 1.3em;
+            opacity: 0.95;
+            margin-bottom: 10px;
+        }
+
+        header .meta {
+            font-size: 0.95em;
+            opacity: 0.8;
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 60px;
+        }
+
+        h2 {
+            color: #2d3748;
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 4px solid #667eea;
+            font-weight: 700;
+        }
+
+        h3 {
+            color: #4a5568;
+            font-size: 1.6em;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .toc {
+            background: #f7fafc;
+            padding: 30px;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+
+        .toc h2 {
+            border: none;
+            margin-bottom: 20px;
+        }
+
+        .toc ul {
+            list-style: none;
+        }
+
+        .toc li {
+            padding: 8px 0;
+            font-size: 1.1em;
+        }
+
+        .toc a {
+            color: #4a5568;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .toc a:hover {
+            color: #667eea;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 30px 0;
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .bubble-chart-container {
+            position: relative;
+            height: 500px;
+            margin: 30px 0;
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .note {
+            background: #edf2f7;
+            padding: 20px;
+            border-left: 5px solid #4299e1;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-size: 0.95em;
+        }
+
+        .note strong {
+            color: #2c5282;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            margin: 30px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .specs-table {
+            width: 100%;
+            min-width: 900px;
+            border-collapse: collapse;
+        }
+
+        .specs-table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .specs-table th {
+            padding: 18px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1.05em;
+            white-space: nowrap;
+        }
+
+        .specs-table td {
+            padding: 15px 18px;
+            border-bottom: 1px solid #e2e8f0;
+            white-space: nowrap;
+        }
+
+        .specs-table tbody tr:hover {
+            background: #f7fafc;
+        }
+
+        .specs-table tbody tr:nth-child(even) {
+            background: #fafbfc;
+        }
+
+        .model-card {
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .model-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .model-header {
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .model-header h3 {
+            margin: 0 0 10px 0;
+            color: #2d3748;
+            font-size: 1.8em;
+        }
+
+        .model-specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+            color: #4a5568;
+        }
+
+        .model-specs span {
+            background: #edf2f7;
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin: 20px 0;
+        }
+
+        .pros, .cons {
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .pros {
+            background: #f0fff4;
+            border-left: 4px solid #48bb78;
+        }
+
+        .cons {
+            background: #fff5f5;
+            border-left: 4px solid #f56565;
+        }
+
+        .pros h4, .cons h4 {
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .pros h4 {
+            color: #2f855a;
+        }
+
+        .cons h4 {
+            color: #c53030;
+        }
+
+        .pros ul, .cons ul {
+            list-style: none;
+        }
+
+        .pros li, .cons li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .pros li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #48bb78;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .cons li:before {
+            content: "✗";
+            position: absolute;
+            left: 0;
+            color: #f56565;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .verdict {
+            background: linear-gradient(135deg, #fef5e7 0%, #fdebd0 100%);
+            border: 2px solid #f39c12;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1em;
+            color: #d68910;
+        }
+
+        .recommendations {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-radius: 10px;
+            padding: 30px;
+        }
+
+        .recommendation-item {
+            background: white;
+            border-left: 5px solid #4caf50;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .recommendation-item h3 {
+            color: #2e7d32;
+            margin-top: 0;
+        }
+
+        .recommendation-item.alternative {
+            border-left-color: #2196f3;
+        }
+
+        .recommendation-item.alternative h3 {
+            color: #1565c0;
+        }
+
+        .recommendation-item.flexible {
+            border-left-color: #ff9800;
+        }
+
+        .recommendation-item.flexible h3 {
+            color: #e65100;
+        }
+
+        .important-notes {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        .important-notes h3 {
+            color: #856404;
+            margin-top: 0;
+        }
+
+        .important-notes ul {
+            margin-left: 20px;
+        }
+
+        .important-notes li {
+            margin: 10px 0;
+            color: #856404;
+        }
+
+        footer {
+            background: #2d3748;
+            color: white;
+            padding: 30px;
+            text-align: center;
+            font-size: 0.9em;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                border-radius: 0;
+            }
+
+            header {
+                padding: 40px 20px;
+            }
+
+            header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-container {
+                height: 300px;
+            }
+
+            .bubble-chart-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Guide Comparatif Illustré</h1>
+            <div class="subtitle">Mini Tours à Métaux Disponibles au Canada</div>
+            <div class="subtitle">Analyse Complète avec Graphiques, Spécifications et Avis Utilisateurs</div>
+            <div class="meta">Sous 1000$ CAD • Pour Prototypage • Novembre 2025</div>
+            <div class="meta">Document généré le 09 novembre 2025</div>
+        </header>
+
+        <div class="content">
+            <!-- Table des matières -->
+            <section class="section">
+                <div class="toc">
+                    <h2>Table des Matières</h2>
+                    <ul>
+                        <li><a href="#graphiques">1. Graphiques Comparatifs</a>
+                            <ul style="margin-left: 20px;">
+                                <li><a href="#prix">• Comparaison des Prix</a></li>
+                                <li><a href="#puissance">• Comparaison de la Puissance</a></li>
+                                <li><a href="#capacite">• Capacité de Travail</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#specifications">2. Tableau de Spécifications Détaillées</a></li>
+                        <li><a href="#analyses">3. Analyses par Modèle</a></li>
+                        <li><a href="#recommandations">4. Recommandations Finales</a></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Graphiques Comparatifs -->
+            <section id="graphiques" class="section">
+                <h2>1. Graphiques Comparatifs</h2>
+                <p style="font-size: 1.1em; color: #4a5568; margin-bottom: 30px;">
+                    Cette section présente des visualisations graphiques permettant de comparer rapidement les caractéristiques
+                    principales des 6 mini tours à métaux analysés. Les graphiques facilitent l'identification des meilleurs rapports
+                    qualité-prix et des compromis techniques.
+                </p>
+
+                <h3 id="prix">Comparaison des Prix</h3>
+                <div class="chart-container">
+                    <canvas id="priceChart"></canvas>
+                </div>
+                <div class="note">
+                    <strong>Note:</strong> La ligne rouge en pointillés indique le budget cible de 1000$ CAD. Deux modèles (King Canada et Craftex)
+                    dépassent légèrement ce budget mais offrent des avantages justifiant leur surprix (garantie étendue, support canadien).
+                </div>
+
+                <h3 id="puissance">Comparaison de la Puissance Moteur</h3>
+                <div class="chart-container">
+                    <canvas id="powerChart"></canvas>
+                </div>
+                <div class="note">
+                    <strong>Analyse:</strong> Le VEVOR 8x14 (650W) offre la puissance la plus élevée, essentielle pour travailler l'acier. Les
+                    modèles à 550W conviennent à l'aluminium et au laiton. Les modèles 373W (King, Craftex) nécessitent des
+                    passes plus légères.
+                </div>
+
+                <h3 id="capacite">Capacité de Travail</h3>
+                <div class="bubble-chart-container">
+                    <canvas id="capacityChart"></canvas>
+                </div>
+                <div class="note">
+                    <strong>Lecture:</strong> La position sur l'axe horizontal indique la distance entre pointes (longueur maximale des pièces). L'axe
+                    vertical montre la hauteur de pointe (diamètre maximum). La taille des bulles représente le poids de la machine (rigidité).
+                </div>
+            </section>
+
+            <!-- Tableau de Spécifications -->
+            <section id="specifications" class="section">
+                <h2>2. Tableau de Spécifications Détaillées</h2>
+                <p style="font-size: 1.1em; color: #4a5568; margin-bottom: 30px;">
+                    Ce tableau résume les spécifications techniques essentielles pour faciliter la comparaison directe entre les
+                    modèles. Les données proviennent des fabricants et ont été vérifiées via les avis utilisateurs.
+                </p>
+                <div class="table-wrapper">
+                    <table class="specs-table">
+                        <thead>
+                            <tr>
+                                <th>Modèle</th>
+                                <th>Prix (CAD)</th>
+                                <th>Puissance</th>
+                                <th>Capacité (H × L)</th>
+                                <th>Vitesse (RPM)</th>
+                                <th>Poids (lbs)</th>
+                                <th>Garantie</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>WEN ML712</strong></td>
+                                <td>700-900$</td>
+                                <td>560W</td>
+                                <td>7.0" × 12.0"</td>
+                                <td>100-2500</td>
+                                <td>79</td>
+                                <td>2 ans</td>
+                            </tr>
+                            <tr>
+                                <td><strong>VEVOR 8x14 (650W)</strong></td>
+                                <td>800-950$</td>
+                                <td>650W</td>
+                                <td>8.3" × 14.0"</td>
+                                <td>50-2250</td>
+                                <td>103</td>
+                                <td>Standard</td>
+                            </tr>
+                            <tr>
+                                <td><strong>King Canada KC-0712ML</strong></td>
+                                <td>1048$</td>
+                                <td>373W</td>
+                                <td>7.0" × 12.0"</td>
+                                <td>0-2500</td>
+                                <td>92</td>
+                                <td>2 ans</td>
+                            </tr>
+                            <tr>
+                                <td><strong>VEVOR 7x14 (550W)</strong></td>
+                                <td>650-750$</td>
+                                <td>550W</td>
+                                <td>7.09" × 13.78"</td>
+                                <td>50-2500</td>
+                                <td>103</td>
+                                <td>Standard</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Craftex CX704</strong></td>
+                                <td>1099$</td>
+                                <td>373W</td>
+                                <td>7.0" × 12.0"</td>
+                                <td>0-2500</td>
+                                <td>75</td>
+                                <td>3 ans</td>
+                            </tr>
+                            <tr>
+                                <td><strong>BestEquip 7x14</strong></td>
+                                <td>650-800$</td>
+                                <td>550W</td>
+                                <td>7.09" × 13.78"</td>
+                                <td>0-2500</td>
+                                <td>102</td>
+                                <td>Limitée</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Analyses Détaillées -->
+            <section id="analyses" class="section">
+                <h2>3. Analyses Détaillées par Modèle</h2>
+                <p style="font-size: 1.1em; color: #4a5568; margin-bottom: 30px;">
+                    Chaque modèle est présenté avec ses avantages et inconvénients basés sur les retours d'utilisateurs réels,
+                    ainsi qu'un verdict global. Les symboles ✓ et ✗ permettent d'identifier rapidement les points forts et faibles.
+                </p>
+
+                <!-- WEN ML712 -->
+                <div class="model-card">
+                    <div class="model-header">
+                        <h3>WEN ML712</h3>
+                        <div class="model-specs">
+                            <span><strong>Prix:</strong> 700-900$ CAD</span>
+                            <span><strong>Puissance:</strong> 560W</span>
+                            <span><strong>Capacité:</strong> 7.0" × 12.0"</span>
+                            <span><strong>Note:</strong> N/A</span>
+                            <span><strong>Garantie:</strong> 2 ans</span>
+                        </div>
+                    </div>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>Points Forts</h4>
+                            <ul>
+                                <li>Support client nord-américain et garantie 2 ans</li>
+                                <li>Documentation complète en anglais</li>
+                                <li>Communauté active (forums, YouTube)</li>
+                                <li>Contrôle de vitesse variable précis</li>
+                                <li>Prix laissant budget pour outils de qualité</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>Points Faibles</h4>
+                            <ul>
+                                <li>Capacité limitée (12" entre pointes)</li>
+                                <li>Poids modeste (79 lbs) = moins de masse</li>
+                                <li>Base en aluminium vs fonte</li>
+                                <li>Données insuffisantes (modèle très récent)</li>
+                                <li>Rigidité limitée pour aciers durs</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="verdict">VERDICT: ACCEPTABLE AVEC RÉSERVES</div>
+                </div>
+
+                <!-- VEVOR 8x14 -->
+                <div class="model-card">
+                    <div class="model-header">
+                        <h3>VEVOR 8x14 (650W)</h3>
+                        <div class="model-specs">
+                            <span><strong>Prix:</strong> 800-950$ CAD</span>
+                            <span><strong>Puissance:</strong> 650W</span>
+                            <span><strong>Capacité:</strong> 8.3" × 14.0"</span>
+                            <span><strong>Note:</strong> Mixte</span>
+                            <span><strong>Garantie:</strong> Standard</span>
+                        </div>
+                    </div>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>Points Forts</h4>
+                            <ul>
+                                <li>Capacité supérieure (8.3" × 14")</li>
+                                <li>Moteur le plus puissant (650W)</li>
+                                <li>Engrenages métalliques pour longévité</li>
+                                <li>Poids élevé (103 lbs) = meilleure rigidité</li>
+                                <li>Excellent rapport qualité-prix</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>Points Faibles</h4>
+                            <ul>
+                                <li>Absence de support client structuré au Canada</li>
+                                <li>Documentation minimale (YouTube/forums)</li>
+                                <li>Ajustements initiaux probablement nécessaires</li>
+                                <li>Contrôle qualité variable selon lots</li>
+                                <li>Configuration extensive requise (24+ heures)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="verdict">VERDICT: ACCEPTABLE AVEC MISES EN GARDE MAJEURES</div>
+                </div>
+
+                <!-- King Canada -->
+                <div class="model-card">
+                    <div class="model-header">
+                        <h3>King Canada KC-0712ML</h3>
+                        <div class="model-specs">
+                            <span><strong>Prix:</strong> 1048$ CAD</span>
+                            <span><strong>Puissance:</strong> 373W</span>
+                            <span><strong>Capacité:</strong> 7.0" × 12.0"</span>
+                            <span><strong>Note:</strong> N/A</span>
+                            <span><strong>Garantie:</strong> 2 ans</span>
+                        </div>
+                    </div>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>Points Forts</h4>
+                            <ul>
+                                <li>Marque canadienne établie (35+ ans)</li>
+                                <li>Garantie 2 ans avec réseau support national</li>
+                                <li>Glissières trempées et rectifiées</li>
+                                <li>Ensemble accessoires le plus complet</li>
+                                <li>Disponibilité pièces de rechange assurée</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>Points Faibles</h4>
+                            <ul>
+                                <li>Dépasse budget de 48$ CAD</li>
+                                <li>Capacité standard 7×12" (pas augmentée)</li>
+                                <li>Moteur 1/2 HP moins puissant</li>
+                                <li>Problèmes d'alignement de contre-pointe</li>
+                                <li>Surpayé 2-3x vs marché US</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="verdict">VERDICT: ACCEPTABLE (avec mises en garde)</div>
+                </div>
+
+                <!-- VEVOR 7x14 -->
+                <div class="model-card">
+                    <div class="model-header">
+                        <h3>VEVOR 7x14 (550W)</h3>
+                        <div class="model-specs">
+                            <span><strong>Prix:</strong> 650-750$ CAD</span>
+                            <span><strong>Puissance:</strong> 550W</span>
+                            <span><strong>Capacité:</strong> 7.09" × 13.78"</span>
+                            <span><strong>Note:</strong> 4.1/5</span>
+                            <span><strong>Garantie:</strong> Standard</span>
+                        </div>
+                    </div>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>Points Forts</h4>
+                            <ul>
+                                <li>Prix le plus bas (650-750$ CAD)</li>
+                                <li>Budget restant pour outillage qualité</li>
+                                <li>Service client VEVOR réactif</li>
+                                <li>Poids solide (103 lbs) pour rigidité</li>
+                                <li>Plateforme évolutive avec support après-marché</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>Points Faibles</h4>
+                            <ul>
+                                <li>Engrenages nylon (usure rapide)</li>
+                                <li>Contrôle qualité très variable</li>
+                                <li>Documentation quasi inexistante</li>
+                                <li>Problèmes d'alignement contre-pointe</li>
+                                <li>Moteur sous-puissant (120W réel vs 550W annoncé)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="verdict">VERDICT: ACCEPTABLE AVEC MISES EN GARDE</div>
+                </div>
+
+                <!-- Craftex -->
+                <div class="model-card">
+                    <div class="model-header">
+                        <h3>Craftex CX704</h3>
+                        <div class="model-specs">
+                            <span><strong>Prix:</strong> 1099$ CAD</span>
+                            <span><strong>Puissance:</strong> 373W</span>
+                            <span><strong>Capacité:</strong> 7.0" × 12.0"</span>
+                            <span><strong>Note:</strong> N/A</span>
+                            <span><strong>Garantie:</strong> 3 ans</span>
+                        </div>
+                    </div>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>Points Forts</h4>
+                            <ul>
+                                <li>Construction fonte (rigidité maximale)</li>
+                                <li>Garantie 3 ans (meilleure de toutes)</li>
+                                <li>Réseau Busy Bee Tools Canada</li>
+                                <li>Prix promotionnel (économie 500$)</li>
+                                <li>Capacités filetage étendues (28 filetages)</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>Points Faibles</h4>
+                            <ul>
+                                <li>Dépasse budget de 99$ CAD</li>
+                                <li>Engrenages plastique - préoccupation majeure</li>
+                                <li>Capacité très limitée - trop petit</li>
+                                <li>Nécessite améliorations/modifications</li>
+                                <li>Exclusivité Busy Bee (1 seul fournisseur)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="verdict">VERDICT: ACCEPTABLE AVEC MISES EN GARDE MAJEURES</div>
+                </div>
+
+                <!-- BestEquip -->
+                <div class="model-card">
+                    <div class="model-header">
+                        <h3>BestEquip 7x14</h3>
+                        <div class="model-specs">
+                            <span><strong>Prix:</strong> 650-800$ CAD</span>
+                            <span><strong>Puissance:</strong> 550W</span>
+                            <span><strong>Capacité:</strong> 7.09" × 13.78"</span>
+                            <span><strong>Note:</strong> 3.9/5</span>
+                            <span><strong>Garantie:</strong> Limitée</span>
+                        </div>
+                    </div>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>Points Forts</h4>
+                            <ul>
+                                <li>Excellent rapport qualité-prix</li>
+                                <li>Bonne puissance et fonctionnement silencieux</li>
+                                <li>Capable d'atteindre tolérances ±0.02mm</li>
+                                <li>Fonctionnel sortie de boîte (avec ajustements)</li>
+                                <li>80% de l'utilité pour 25% du coût vs premium</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>Points Faibles</h4>
+                            <ul>
+                                <li>Contrôle qualité et problèmes d'assemblage</li>
+                                <li>Documentation pauvre (manuels inutiles)</li>
+                                <li>Configuration et ajustement extensifs requis</li>
+                                <li>"Tour en kit" - engrenages plastique</li>
+                                <li>Marque peu connue (moins de retours)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="verdict">VERDICT: ACCEPTABLE AVEC MISES EN GARDE</div>
+                </div>
+            </section>
+
+            <!-- Recommandations -->
+            <section id="recommandations" class="section">
+                <h2>4. Recommandations Finales</h2>
+                <div class="recommendations">
+                    <div class="recommendation-item">
+                        <h3>■ MEILLEUR CHOIX GLOBAL: WEN ML712 (700-900$ CAD)</h3>
+                        <p>Pour le prototypage avec quelques connaissances et budget strict de 1000$ CAD. Offre le meilleur
+                        équilibre entre fiabilité, support client nord-américain, documentation complète, et prix permettant
+                        d'investir dans des outils de coupe de qualité.</p>
+                    </div>
+
+                    <div class="recommendation-item alternative">
+                        <h3>■ ALTERNATIVE: VEVOR 8x14 650W (800-950$ CAD)</h3>
+                        <p>Si vous privilégiez capacité et puissance sur support client. Offre la meilleure capacité (8.3" × 14"),
+                        moteur le plus puissant (650W), et engrenages métalliques. Nécessite patience pour configuration
+                        initiale et dépendance aux forums/YouTube pour support.</p>
+                    </div>
+
+                    <div class="recommendation-item flexible">
+                        <h3>■ SI BUDGET FLEXIBLE (+48-99$ CAD)</h3>
+                        <p>King Canada KC-0712ML (1,048$) ou Craftex CX704 (1,099$). Marques canadiennes établies
+                        offrant construction supérieure, garanties étendues (2-3 ans), et réseau de support à travers le
+                        pays. Investissement dans la longévité pour usage fréquent.</p>
+                    </div>
+
+                    <div class="important-notes">
+                        <h3>Notes Importantes</h3>
+                        <ul>
+                            <li>Tous ces mini-tours nécessitent 20-40 heures de configuration initiale. Aucun n'est véritablement 'plug and play'.</li>
+                            <li>Investissez 100-200$ CAD supplémentaires dans des outils de coupe de qualité (HSS ou carbure).</li>
+                            <li>La qualité des outils de coupe impacte les résultats plus que la machine elle-même dans cette gamme de prix.</li>
+                            <li>Rejoignez les communautés en ligne (Canadian Hobby Metal Workers, Hobby-Machinist) pour support et conseils.</li>
+                            <li>Les forums recommandent fortement de monter directement à 8x14 ou 10x22 si le budget permet.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            Ce guide a été compilé en novembre 2025 à partir d'avis utilisateurs réels, de spécifications fabricants, et de discussions sur forums spécialisés.<br>
+            Les prix et disponibilités peuvent varier. Vérifiez toujours auprès des détaillants pour informations à jour.
+        </footer>
+    </div>
+
+    <script>
+        // Graphique des Prix
+        const priceCtx = document.getElementById('priceChart').getContext('2d');
+        new Chart(priceCtx, {
+            type: 'bar',
+            data: {
+                labels: ['BestEquip\n7x14', 'Craftex\nCX704', 'VEVOR 7x14\n(550W)', 'King Canada\nKC-0712ML', 'VEVOR 8x14\n(650W)', 'WEN\nML712'],
+                datasets: [{
+                    label: 'Prix (CAD)',
+                    data: [725, 1099, 700, 1048, 875, 800],
+                    backgroundColor: [
+                        'rgba(156, 136, 130, 0.7)',
+                        'rgba(194, 129, 194, 0.7)',
+                        'rgba(255, 167, 38, 0.7)',
+                        'rgba(100, 181, 246, 0.7)',
+                        'rgba(255, 202, 40, 0.7)',
+                        'rgba(129, 199, 132, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(156, 136, 130, 1)',
+                        'rgba(194, 129, 194, 1)',
+                        'rgba(255, 167, 38, 1)',
+                        'rgba(100, 181, 246, 1)',
+                        'rgba(255, 202, 40, 1)',
+                        'rgba(129, 199, 132, 1)'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Comparaison des Prix - Mini Tours à Métaux',
+                        font: { size: 18, weight: 'bold' }
+                    },
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return 'Prix: ' + context.parsed.x + '$ CAD';
+                            }
+                        }
+                    },
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'end',
+                        formatter: function(value) {
+                            return value + '$';
+                        },
+                        font: {
+                            weight: 'bold',
+                            size: 12
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 1200,
+                        title: { display: true, text: 'Prix (CAD)', font: { size: 14 } },
+                        grid: { color: 'rgba(0, 0, 0, 0.05)' }
+                    },
+                    y: {
+                        grid: { display: false }
+                    }
+                }
+            },
+            plugins: [{
+                id: 'budgetLine',
+                afterDatasetsDraw: function(chart) {
+                    const ctx = chart.ctx;
+                    const xAxis = chart.scales.x;
+                    const yAxis = chart.scales.y;
+                    const budgetX = xAxis.getPixelForValue(1000);
+                    
+                    ctx.save();
+                    ctx.setLineDash([10, 5]);
+                    ctx.strokeStyle = 'rgb(255, 99, 132)';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(budgetX, yAxis.top);
+                    ctx.lineTo(budgetX, yAxis.bottom);
+                    ctx.stroke();
+                    
+                    ctx.fillStyle = 'rgb(255, 99, 132)';
+                    ctx.font = 'bold 12px sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('Budget 1000$', budgetX, yAxis.top - 5);
+                    ctx.restore();
+                }
+            }]
+        });
+
+        // Graphique de Puissance
+        const powerCtx = document.getElementById('powerChart').getContext('2d');
+        new Chart(powerCtx, {
+            type: 'bar',
+            data: {
+                labels: ['WEN\nML712', 'VEVOR 8x14\n(650W)', 'King Canada\nKC-0712ML', 'VEVOR 7x14\n(550W)', 'Craftex\nCX704', 'BestEquip\n7x14'],
+                datasets: [{
+                    label: 'Puissance (Watts)',
+                    data: [560, 650, 373, 550, 373, 550],
+                    backgroundColor: [
+                        'rgba(129, 199, 132, 0.7)',
+                        'rgba(255, 202, 40, 0.7)',
+                        'rgba(100, 181, 246, 0.7)',
+                        'rgba(255, 167, 38, 0.7)',
+                        'rgba(194, 129, 194, 0.7)',
+                        'rgba(156, 136, 130, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(129, 199, 132, 1)',
+                        'rgba(255, 202, 40, 1)',
+                        'rgba(100, 181, 246, 1)',
+                        'rgba(255, 167, 38, 1)',
+                        'rgba(194, 129, 194, 1)',
+                        'rgba(156, 136, 130, 1)'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Comparaison de la Puissance Moteur',
+                        font: { size: 18, weight: 'bold' }
+                    },
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return 'Puissance: ' + context.parsed.y + 'W';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 700,
+                        title: { display: true, text: 'Puissance (Watts)', font: { size: 14 } },
+                        grid: { color: 'rgba(0, 0, 0, 0.05)' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            },
+            plugins: [{
+                id: 'valueLabels',
+                afterDatasetsDraw: function(chart) {
+                    const ctx = chart.ctx;
+                    chart.data.datasets.forEach((dataset, i) => {
+                        const meta = chart.getDatasetMeta(i);
+                        meta.data.forEach((bar, index) => {
+                            const value = dataset.data[index];
+                            ctx.save();
+                            ctx.fillStyle = '#2d3748';
+                            ctx.font = 'bold 14px sans-serif';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'bottom';
+                            ctx.fillText(value + 'W', bar.x, bar.y - 5);
+                            ctx.restore();
+                        });
+                    });
+                }
+            }]
+        });
+
+        // Graphique de Capacité (Bubble Chart)
+        const capacityCtx = document.getElementById('capacityChart').getContext('2d');
+        new Chart(capacityCtx, {
+            type: 'bubble',
+            data: {
+                datasets: [
+                    {
+                        label: 'VEVOR 8x14 (650W) - 103 lbs',
+                        data: [{x: 14.0, y: 8.3, r: 30}],
+                        backgroundColor: 'rgba(255, 202, 40, 0.6)',
+                        borderColor: 'rgba(255, 202, 40, 1)',
+                        borderWidth: 3
+                    },
+                    {
+                        label: 'BestEquip 7x14 - 102 lbs',
+                        data: [{x: 13.78, y: 7.09, r: 29}],
+                        backgroundColor: 'rgba(156, 136, 130, 0.6)',
+                        borderColor: 'rgba(156, 136, 130, 1)',
+                        borderWidth: 3
+                    },
+                    {
+                        label: 'VEVOR 7x14 (550W) - 103 lbs',
+                        data: [{x: 13.5, y: 7.3, r: 30}],
+                        backgroundColor: 'rgba(255, 167, 38, 0.6)',
+                        borderColor: 'rgba(255, 167, 38, 1)',
+                        borderWidth: 3
+                    },
+                    {
+                        label: 'King Canada KC-0712ML - 92 lbs',
+                        data: [{x: 12.0, y: 7.0, r: 27}],
+                        backgroundColor: 'rgba(100, 181, 246, 0.6)',
+                        borderColor: 'rgba(100, 181, 246, 1)',
+                        borderWidth: 3
+                    },
+                    {
+                        label: 'WEN ML712 - 79 lbs',
+                        data: [{x: 11.7, y: 6.8, r: 24}],
+                        backgroundColor: 'rgba(129, 199, 132, 0.6)',
+                        borderColor: 'rgba(129, 199, 132, 1)',
+                        borderWidth: 3
+                    },
+                    {
+                        label: 'Craftex CX704 - 75 lbs',
+                        data: [{x: 12.3, y: 7.2, r: 23}],
+                        backgroundColor: 'rgba(194, 129, 194, 0.6)',
+                        borderColor: 'rgba(194, 129, 194, 1)',
+                        borderWidth: 3
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Capacité de Travail (taille des bulles = poids)',
+                        font: { size: 18, weight: 'bold' }
+                    },
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            font: { size: 11 },
+                            padding: 8,
+                            boxWidth: 15
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.dataset.label || '';
+                                return [
+                                    label,
+                                    'Distance: ' + context.parsed.x + '"',
+                                    'Hauteur: ' + context.parsed.y + '"'
+                                ];
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: { 
+                            display: true, 
+                            text: 'Distance entre pointes (pouces)', 
+                            font: { size: 14, weight: 'bold' } 
+                        },
+                        min: 11,
+                        max: 15,
+                        ticks: {
+                            stepSize: 0.5,
+                            font: { size: 12 }
+                        },
+                        grid: { color: 'rgba(0, 0, 0, 0.08)' }
+                    },
+                    y: {
+                        title: { 
+                            display: true, 
+                            text: 'Hauteur de pointe (pouces)', 
+                            font: { size: 14, weight: 'bold' } 
+                        },
+                        min: 6.5,
+                        max: 8.8,
+                        ticks: {
+                            stepSize: 0.5,
+                            font: { size: 12 }
+                        },
+                        grid: { color: 'rgba(0, 0, 0, 0.08)' }
+                    }
+                }
+            },
+            plugins: [{
+                id: 'bubbleLabels',
+                afterDatasetsDraw: function(chart) {
+                    const ctx = chart.ctx;
+                    chart.data.datasets.forEach((dataset, i) => {
+                        const meta = chart.getDatasetMeta(i);
+                        meta.data.forEach((bubble, index) => {
+                            const data = dataset.data[index];
+                            ctx.save();
+                            ctx.fillStyle = '#1a202c';
+                            ctx.font = 'bold 11px sans-serif';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+                            
+                            // Afficher les dimensions sur la bulle
+                            const text = data.x + '" × ' + data.y + '"';
+                            ctx.fillText(text, bubble.x, bubble.y);
+                            ctx.restore();
+                        });
+                    });
+                }
+            }]
+        });
+    </script>
+</body>
+</html>
